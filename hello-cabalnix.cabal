@@ -9,7 +9,7 @@ version:             0.1.0.0
 -- description:
 -- bug-reports:
 -- license:
-license-file:        LICENSE
+-- license-file:        LICENSE
 author:              Mark Mendel
 maintainer:          mgm7734@gmail.com
 -- copyright:
@@ -17,10 +17,10 @@ maintainer:          mgm7734@gmail.com
 build-type:          Simple
 extra-source-files:  CHANGELOG.md
 
-executable hello-cabalnix
+executable server
   main-is:             Main.hs
   -- other-modules:
   -- other-extensions:
   build-depends:       base >=4.13 && <4.14
-  -- hs-source-dirs:
+  hs-source-dirs:      server/src
   default-language:    Haskell2010
