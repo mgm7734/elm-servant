@@ -1,4 +1,4 @@
 let
   pkgs = import <nixpkgs> {};
 in
-pkgs.haskellPackages.callPackage ./hello-cabalnix.nix {}
+pkgs.haskellPackages.callPackage ./myproj.nix {}
