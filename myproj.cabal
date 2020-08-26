@@ -17,6 +17,22 @@ maintainer:          mgm7734@gmail.com
 build-type:          Simple
 extra-source-files:  CHANGELOG.md
 
+executable generate-elm
+  main-is:  GenerateElm.hs
+  hs-source-dirs:
+    client     
+    server/src
+  other-modules:
+      Api
+  build-depends:
+      base >=4.13 && <4.14
+    , aeson
+    , containers
+    , elm-bridge
+    , servant
+    , servant-elm
+    , text
+
 executable server
   main-is:             Main.hs
   other-modules:

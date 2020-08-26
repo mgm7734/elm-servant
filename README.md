@@ -2,6 +2,8 @@
 https://github.com/Gabriel439/haskell-nix/tree/master/project0
 https://mpickering.github.io/ide/posts/2020-06-05-ghcide-and-nixpkgs.html
 
+nix-env -f '<nixpkgs>' -iA haskellPackages.ghcide
+
 nix-shell -A env
 cabal2nix . > hello-cabalnix.nix
 
