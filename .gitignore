@@ -1,4 +1,7 @@
 *~
 /dist-newstyle
+/result
+/static-files/index.html
+client/elm-stuff/
 client/src/Api.elm
 *#
