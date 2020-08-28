@@ -9,13 +9,16 @@ module Api where
 import           Data.Proxy
 import           Servant.API
 import qualified Elm.Derive
+import           Persist
 
 type Api =
   "api" :>
     ("item" :> Get '[JSON] [ItemId] :<|>
      "item" :> Capture "itemId" ItemId :> Get '[JSON] Item :<|>
      "item" :> ReqBody '[JSON] String :> Post '[JSON] ItemId :<|>
-     "item" :> Capture "itemId" ItemId :> Delete '[JSON] ())
+     "item" :> Capture "itemId" ItemId :> Delete '[JSON] ()
+--     :<|> "proto" :> Get '[JSON] [PrototypeId])
+    )
 
 api :: Proxy Api
 api = Proxy

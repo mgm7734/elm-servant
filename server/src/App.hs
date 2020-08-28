@@ -6,12 +6,13 @@ module App where
 import           Control.Concurrent
 import           Control.Monad.IO.Class (MonadIO, liftIO)
 import           Data.Map
+-- import           Database.Persist.Sqlite
 import           Network.Wai
 import           Servant
 
 import           Api
+import           Persist
 
--- type WithAssets = Api :<|> Raw
 type StaticAPI = "static" :> Raw
 
 type WithAssets = Api :<|> StaticAPI
