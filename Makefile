@@ -4,7 +4,7 @@ run: static-files/index.html
 server-build:
 	cabal build server
 
-static-files/index.html: client/src/Api.elm 
+static-files/index.html: client/src/*
 	cd client; elm make src/Main.elm
 	mkdir -p static-files
 	mv client/index.html static-files/

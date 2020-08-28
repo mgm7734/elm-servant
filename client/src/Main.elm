@@ -3,10 +3,11 @@ module Main exposing (FromServer(..), FromUi(..), Model, Msg(..), fromServer, in
 import Api exposing (..)
 import Browser
 import Dict exposing (Dict)
-import Html exposing (Html, button, div, input, li, text, ul)
+import Html exposing (Attribute, Html, button, div, h2, input, li, text, ul)
 import Html.Attributes exposing (value)
-import Html.Events exposing (onClick, onInput)
+import Html.Events exposing (keyCode, on, onClick, onInput)
 import Http
+import Json.Decode as D
 
 
 main : Program () Model Msg
@@ -56,6 +57,7 @@ type FromServer
 type FromUi
     = AddItemInputChange String
     | AddItemButton
+    | KeyDown Int
     | Done ItemId
 
 
@@ -84,17 +86,13 @@ update msg model =
         FromUi fromUi ->
             case fromUi of
                 AddItemButton ->
-                    let
-                        itemName =
-                            model.addItemInput
-                    in
-                    if itemName == "" then
-                        update (Error "empty field") model
+                    addItem model
 
-                    else
-                        ( { model | addItemInput = "" }
-                        , postApiItem itemName (fromServer (\id -> NewItem (Item id itemName)))
-                        )
+                KeyDown 13 ->
+                    addItem model
+
+                KeyDown _ ->
+                    ( model, Cmd.none )
 
                 AddItemInputChange t ->
                     ( { model | addItemInput = t, error = Nothing }
@@ -108,6 +106,21 @@ update msg model =
 
         Error error ->
             ( { model | error = Just error }, Cmd.none )
+
+
+addItem : Model -> ( Model, Cmd Msg )
+addItem model =
+    let
+        itemName =
+            model.addItemInput
+    in
+    if itemName == "" then
+        update (Error "empty field") model
+
+    else
+        ( { model | addItemInput = "" }
+        , postApiItem itemName (fromServer (\id -> NewItem (Item id itemName)))
+        )
 
 
 fromServer : (a -> FromServer) -> Result Http.Error a -> Msg
@@ -155,11 +168,22 @@ view model =
                 |> Maybe.withDefault (Html.text "")
     in
     div []
-        [ ul [] items
-        , input [ onInput (FromUi << AddItemInputChange), value model.addItemInput ] []
+        [ h2 [] [ text "Hello" ]
+        , ul [] items
+        , input
+            [ onInput (FromUi << AddItemInputChange)
+            , onKeyDown (FromUi << KeyDown)
+            , value model.addItemInput
+            ]
+            []
         , button [ onClick (FromUi AddItemButton) ] [ text "add item" ]
         , error
         ]
+
+
+onKeyDown : (Int -> msg) -> Attribute msg
+onKeyDown tagger =
+    on "keydown" (D.map tagger keyCode)
 
 
 viewItem : Item -> Html Msg
